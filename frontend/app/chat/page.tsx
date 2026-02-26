@@ -243,4 +243,6 @@ const sampleQuestions = [
     "Tell me about your experience",
     "What projects have you worked on?",
     "What's your educational background?",
+    "What is your LinkedIn and GitHub?",
+    "How can I contact you via email?",
 ];
