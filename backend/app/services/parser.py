@@ -1,4 +1,4 @@
-"""Resume parsing service for PDF and DOCX files"""
+"""Document parsing service for PDF, DOCX, and TXT files"""
 import os
 from typing import List
 import fitz  # PyMuPDF
@@ -7,33 +7,47 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from app.config import settings
 
 
-def parse_resume(file_path: str) -> str:
+def parse_document(file_path: str) -> str:
     """
-    Parse resume from PDF or DOCX file and extract text.
-    
+    Parse a document (PDF, DOCX, or TXT) and extract text.
+
     Args:
-        file_path: Path to the resume file
-        
+        file_path: Path to the document file
+
     Returns:
-        Extracted text content from the resume
-        
+        Extracted text content
+
     Raises:
         FileNotFoundError: If file doesn't exist
         ValueError: If file format is not supported
     """
     if not os.path.exists(file_path):
-        raise FileNotFoundError(f"Resume file not found: {file_path}")
-    
-    # Determine file type by extension
+        raise FileNotFoundError(f"File not found: {file_path}")
+
     _, ext = os.path.splitext(file_path)
     ext = ext.lower()
-    
+
     if ext == ".pdf":
         return _parse_pdf(file_path)
     elif ext in [".docx", ".doc"]:
         return _parse_docx(file_path)
+    elif ext == ".txt":
+        return _parse_txt(file_path)
     else:
-        raise ValueError(f"Unsupported file format: {ext}. Only PDF and DOCX are supported.")
+        raise ValueError(f"Unsupported file format: {ext}. Supported: PDF, DOCX, TXT.")
+
+
+# Keep old name as an alias so existing call sites don't break
+parse_resume = parse_document
+
+
+def _parse_txt(file_path: str) -> str:
+    """Read and return a plain-text file"""
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return _clean_text(f.read())
+    except Exception as e:
+        raise ValueError(f"Failed to read TXT file: {str(e)}")
 
 
 def _parse_pdf(file_path: str) -> str:

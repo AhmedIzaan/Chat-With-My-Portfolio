@@ -23,8 +23,14 @@ class RAGService:
         
         # Define prompt template
         self.prompt = ChatPromptTemplate.from_template(
-            """You are an AI assistant answering questions about a software engineer's portfolio/resume.
-Use only the provided context to answer the question. Be concise, specific, and professional.
+            """You are an AI assistant answering questions about a software engineer's portfolio.
+Use only the provided context to answer the question.
+Format your responses using Markdown for readability:
+- Use **bold** for key terms, names, or important values
+- Use bullet points or numbered lists when listing multiple items
+- Use headings (##) only if the answer is long and benefits from sections
+- Use `inline code` for tech stacks, tools, or programming languages
+- Keep answers concise and scannable — avoid long unbroken paragraphs
 If the context doesn't contain relevant information, say so honestly.
 
 Context:
