@@ -11,9 +11,10 @@ class Settings(BaseSettings):
     # CORS settings
     ALLOWED_ORIGINS: str = "*"
     
-    # Paths
+    # Paths (relative paths work both locally from backend/ and in Docker with WORKDIR=/app)
     CHROMA_DB_PATH: str = "/tmp/chroma_db"
-    RESUME_FILE_PATH: str = "/app/data/resume.pdf"
+    RESUME_FILE_PATH: str = "data/resume.pdf"
+    PROFILE_FILE_PATH: str = "data/profile.txt"
     
     # Gemini models
     EMBEDDING_MODEL: str = "models/gemini-embedding-001"
