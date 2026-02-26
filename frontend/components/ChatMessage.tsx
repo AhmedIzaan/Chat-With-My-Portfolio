@@ -68,7 +68,7 @@ const markdownComponents: React.ComponentProps<typeof ReactMarkdown>['components
   ),
   a: ({ href, children }) => (
     <a href={href} target="_blank" rel="noopener noreferrer"
-      className="text-indigo-500 dark:text-indigo-400 underline underline-offset-2 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+      className="text-indigo-500 dark:text-indigo-400 underline underline-offset-2 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors break-all">
       {children}
     </a>
   ),
@@ -91,7 +91,7 @@ export default function ChatMessage({ role, content, isStreaming = false }: Chat
       )}
 
       <div
-        className={`max-w-[80%] md:max-w-[70%] px-5 py-3.5 rounded-2xl shadow-sm ${isUser
+        className={`max-w-[85%] md:max-w-[75%] px-4 md:px-5 py-3 md:py-3.5 rounded-2xl shadow-sm ${isUser
           ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-tr-sm'
           : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-white/50 dark:border-slate-700/50 text-slate-800 dark:text-slate-200 rounded-tl-sm'
           }`}

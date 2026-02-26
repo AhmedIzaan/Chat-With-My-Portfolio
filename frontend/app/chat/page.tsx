@@ -133,16 +133,17 @@ export default function ChatPage() {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 transition-all shadow-sm"
+                                className="flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 transition-all shadow-sm"
                             >
                                 <ArrowLeft className="w-4 h-4" />
-                                <span className="text-sm font-medium">Back to Home</span>
+                                <span className="text-xs md:text-sm font-medium hidden sm:inline">Back to Home</span>
+                                <span className="text-xs font-medium sm:hidden">Back</span>
                             </motion.button>
                         </Link>
-                        <h1 className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                        <h1 className="text-base md:text-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent truncate px-2">
                             Portfolio Chat
                         </h1>
-                        <div className="w-24" /> {/* Spacer for centering */}
+                        <div className="w-16 md:w-24" /> {/* Spacer for centering */}
                     </div>
                 </div>
             </motion.header>
