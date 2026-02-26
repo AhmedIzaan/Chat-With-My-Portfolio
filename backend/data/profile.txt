@@ -1,0 +1,15 @@
+# Personal Profile
+
+## Basic Information
+Name: Ahmed Izaan
+Age: 21
+Email: ahmedizaanofficial@gmail.com
+
+## Online Presence
+LinkedIn: https://www.linkedin.com/in/ahmed-izaan-353448324
+GitHub: https://github.com/AhmedIzaan
+
+## Interests & Hobbies
+- Table tennis
+- Watching movies
+- Reading books
