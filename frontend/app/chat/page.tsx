@@ -1,12 +1,59 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, AlertCircle } from 'lucide-react';
+import { ArrowLeft, AlertCircle, Bot } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 import { streamChat, ChatMessage as ChatMessageType } from '@/lib/api';
+
+function ThinkingIndicator() {
+    const dotVariants = {
+        initial: { y: 0, opacity: 0.4 },
+        animate: { y: -6, opacity: 1 },
+    };
+    const containerVariants = {
+        animate: { transition: { staggerChildren: 0.18 } },
+    };
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25 }}
+            className="flex gap-3 justify-start mb-4"
+        >
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white" />
+            </div>
+            <div className="px-5 py-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center gap-1">
+                <motion.div
+                    className="flex gap-1.5 items-center"
+                    variants={containerVariants}
+                    animate="animate"
+                >
+                    {[0, 1, 2].map((i) => (
+                        <motion.span
+                            key={i}
+                            className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-blue-400 to-purple-500"
+                            variants={dotVariants}
+                            initial="initial"
+                            animate="animate"
+                            transition={{
+                                duration: 0.5,
+                                repeat: Infinity,
+                                repeatType: 'mirror',
+                                ease: 'easeInOut',
+                                delay: i * 0.18,
+                            }}
+                        />
+                    ))}
+                </motion.div>
+            </div>
+        </motion.div>
+    );
+}
 
 export default function ChatPage() {
     const [messages, setMessages] = useState<ChatMessageType[]>([]);
@@ -66,12 +113,19 @@ export default function ChatPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="relative min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+            {/* Animated Background Gradients */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-[40%] -left-[20%] w-[70%] h-[70%] rounded-full bg-blue-400/10 dark:bg-blue-600/5 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob" />
+                <div className="absolute top-[20%] -right-[20%] w-[60%] h-[60%] rounded-full bg-purple-400/10 dark:bg-purple-600/5 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000" />
+                <div className="absolute -bottom-[40%] left-[20%] w-[70%] h-[70%] rounded-full bg-indigo-400/10 dark:bg-indigo-600/5 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000" />
+            </div>
+
             {/* Header */}
             <motion.header
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10"
+                className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-b border-white/50 dark:border-slate-800/50 sticky top-0 z-20 shadow-sm"
             >
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
@@ -79,13 +133,13 @@ export default function ChatPage() {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 transition-all shadow-sm"
                             >
                                 <ArrowLeft className="w-4 h-4" />
                                 <span className="text-sm font-medium">Back to Home</span>
                             </motion.button>
                         </Link>
-                        <h1 className="text-lg md:text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        <h1 className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                             Portfolio Chat
                         </h1>
                         <div className="w-24" /> {/* Spacer for centering */}
@@ -94,7 +148,7 @@ export default function ChatPage() {
             </motion.header>
 
             {/* Chat Container */}
-            <div className="container mx-auto px-4 py-6 max-w-4xl h-[calc(100vh-180px)] flex flex-col">
+            <div className="relative container mx-auto px-6 py-4 max-w-6xl h-[calc(100vh-73px)] flex flex-col z-10">
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto mb-4 space-y-4">
                     {messages.length === 0 ? (
@@ -122,6 +176,11 @@ export default function ChatPage() {
                                     content={message.content}
                                 />
                             ))}
+                            <AnimatePresence>
+                                {isLoading && !streamingContent && (
+                                    <ThinkingIndicator key="thinking" />
+                                )}
+                            </AnimatePresence>
                             {streamingContent && (
                                 <ChatMessage
                                     role="assistant"
@@ -164,7 +223,7 @@ export default function ChatPage() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => handleSendMessage(question)}
-                                className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
+                                className="px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-full border border-white/50 dark:border-slate-700/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-700/90 hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-all shadow-sm"
                             >
                                 {question}
                             </motion.button>

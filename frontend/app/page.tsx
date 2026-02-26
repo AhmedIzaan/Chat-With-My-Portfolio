@@ -2,23 +2,30 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, MessageSquare, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, MessageSquare, Sparkles, Zap, Code2, Database, BrainCircuit } from 'lucide-react';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <main className="relative min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+      {/* Animated Background Gradients */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[40%] -left-[20%] w-[70%] h-[70%] rounded-full bg-blue-400/20 dark:bg-blue-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob" />
+        <div className="absolute top-[20%] -right-[20%] w-[60%] h-[60%] rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-[40%] left-[20%] w-[70%] h-[70%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000" />
+      </div>
+
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="relative container mx-auto px-4 py-16 md:py-24 z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Animated Badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-200 dark:border-gray-700 shadow-sm"
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-white/40 dark:bg-slate-800/40 backdrop-blur-md rounded-full border border-white/50 dark:border-slate-700/50 shadow-sm"
           >
-            <Sparkles className="w-4 h-4 text-purple-500" />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               AI-Powered Portfolio Assistant
             </span>
           </motion.div>
@@ -28,9 +35,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-slate-900 dark:text-white"
           >
-            Chat With My Portfolio
+            Chat With My <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+              Interactive Portfolio
+            </span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -38,9 +48,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            Ask questions about my experience, skills, and projects. Get instant answers powered by AI and RAG technology.
+            Skip the reading. Ask questions about my experience, skills, and projects directly to my AI twin.
           </motion.p>
 
           {/* CTA Button */}
@@ -54,11 +64,14 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2"
+                className="group relative px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 overflow-hidden"
               >
-                <MessageSquare className="w-5 h-5" />
-                Start Chatting
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+                  <MessageSquare className="w-5 h-5" />
+                  Start Chatting
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </motion.button>
             </Link>
           </motion.div>
@@ -68,7 +81,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid md:grid-cols-3 gap-6 mt-20"
+            className="grid md:grid-cols-3 gap-6 mt-24"
           >
             {features.map((feature, index) => (
               <motion.div
@@ -76,18 +89,16 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.15, ease: 'easeOut' } }}
-                whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
-                style={{ transition: 'box-shadow 0.15s ease' }}
-                className="p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg cursor-default"
+                whileHover={{ y: -8 }}
+                className="p-8 bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl border border-white/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all text-left group"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                <div className="w-14 h-14 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-all">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
@@ -99,22 +110,15 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-20 text-center"
+            className="mt-24 text-center"
           >
-            <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">Powered by</p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-              <span className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700">
-                Next.js 15
-              </span>
-              <span className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700">
-                OpenAI
-              </span>
-              <span className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700">
-                LangChain
-              </span>
-              <span className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700">
-                ChromaDB
-              </span>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-6 uppercase tracking-wider">Powered by modern tech</p>
+            <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              {['Next.js 15', 'FastAPI', 'Gemini 2.5', 'LangChain', 'ChromaDB', 'Tailwind CSS'].map((tech) => (
+                <span key={tech} className="px-5 py-2.5 bg-white/40 dark:bg-slate-800/40 backdrop-blur-md rounded-full border border-white/50 dark:border-slate-700/50 shadow-sm hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-default">
+                  {tech}
+                </span>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -126,18 +130,18 @@ export default function Home() {
 const features = [
   {
     title: 'Instant Answers',
-    description: 'Get immediate responses about experience, skills, and projects through natural conversation.',
-    icon: <Zap className="w-6 h-6 text-white" />,
+    description: 'Get immediate, accurate responses about my experience, skills, and projects through natural conversation.',
+    icon: <Zap className="w-7 h-7 text-amber-500" />,
   },
   {
-    title: 'RAG Technology',
-    description: 'Retrieval Augmented Generation ensures accurate, contextual answers from the resume.',
-    icon: <MessageSquare className="w-6 h-6 text-white" />,
+    title: 'RAG Architecture',
+    description: 'Built with Retrieval Augmented Generation to ensure answers are strictly grounded in my actual resume data.',
+    icon: <BrainCircuit className="w-7 h-7 text-indigo-500" />,
   },
   {
-    title: 'Smart Search',
-    description: 'Vector embeddings power semantic search for relevant information retrieval.',
-    icon: <Sparkles className="w-6 h-6 text-white" />,
+    title: 'Vector Search',
+    description: 'Semantic embeddings power the search, understanding the context and meaning behind your questions.',
+    icon: <Database className="w-7 h-7 text-emerald-500" />,
   },
 ];
 

@@ -29,7 +29,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
 
     return (
         <form onSubmit={handleSubmit} className="relative">
-            <div className="flex items-end gap-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-2">
+            <div className="flex items-end gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-white/50 dark:border-slate-700/50 shadow-lg p-2 transition-all focus-within:ring-2 focus-within:ring-indigo-500/50">
                 <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -37,7 +37,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
                     placeholder="Ask about my experience, skills, or projects..."
                     disabled={disabled}
                     rows={1}
-                    className="flex-1 resize-none bg-transparent px-3 py-2 text-sm md:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none max-h-32 min-h-[40px]"
+                    className="flex-1 resize-none bg-transparent px-3 py-2 text-sm md:text-base text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none max-h-32 min-h-[40px]"
                     style={{
                         height: 'auto',
                         minHeight: '40px',
@@ -53,9 +53,9 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
                     disabled={!input.trim() || disabled}
                     whileHover={{ scale: disabled ? 1 : 1.05 }}
                     whileTap={{ scale: disabled ? 1 : 0.95 }}
-                    className={`flex-shrink-0 p-2.5 rounded-xl transition-colors ${disabled || !input.trim()
-                            ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-md'
+                    className={`flex-shrink-0 p-2.5 rounded-xl transition-all ${disabled || !input.trim()
+                        ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                        : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:shadow-lg'
                         }`}
                 >
                     {disabled ? (
