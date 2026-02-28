@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, AlertCircle, Bot } from 'lucide-react';
+import { ArrowLeft, AlertCircle, Bot, Info, X } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 import { streamChat, ChatMessage as ChatMessageType } from '@/lib/api';
@@ -60,6 +60,7 @@ export default function ChatPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [streamingContent, setStreamingContent] = useState('');
+    const [showNotification, setShowNotification] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -147,6 +148,47 @@ export default function ChatPage() {
                     </div>
                 </div>
             </motion.header>
+
+            {/* Notification Popup */}
+            <AnimatePresence>
+                {showNotification && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -50, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="fixed top-24 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md"
+                    >
+                        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-indigo-100 dark:border-indigo-500/20 shadow-2xl rounded-2xl p-5 relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 to-purple-500" />
+                            <button
+                                onClick={() => setShowNotification(false)}
+                                className="absolute top-3 right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                            <div className="flex gap-4 pr-4">
+                                <div className="mt-0.5 bg-indigo-100 dark:bg-indigo-500/20 p-2 rounded-full h-fit flex-shrink-0">
+                                    <Info className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-2">
+                                        Welcome to the Chat!
+                                    </h3>
+                                    <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-2 list-disc pl-4">
+                                        <li>
+                                            The backend runs on Render&apos;s free tier. It may take <strong>~1 minute to wake up</strong> from a cold start for your first message.
+                                        </li>
+                                        <li>
+                                            It uses the Gemini 2.5 Flash free API. Sometimes the daily usage quota may be exhausted.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Chat Container */}
             <div className="relative container mx-auto px-6 py-4 max-w-6xl h-[calc(100vh-73px)] flex flex-col z-10">
